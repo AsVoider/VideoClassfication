@@ -11,6 +11,7 @@ def visualize_history(history, metrics=['acc', 'loss']):
         plt.xlabel('Epoch')
         plt.ylabel('Accuracy')
         plt.legend()
+        plt.savefig('acc.fig')
 
     if 'loss' in metrics:
         plt.subplot(122)
@@ -20,3 +21,4 @@ def visualize_history(history, metrics=['acc', 'loss']):
         plt.xlabel('Epoch')
         plt.ylabel('Loss')
         plt.legend()
+        plt.savefig('acc.fig')
