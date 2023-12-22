@@ -28,8 +28,8 @@ class MyModel(torch.nn.Module):
     def forward(self, x):
         x1, x2, x3, x4, x5 = x.shape
         x = torch.reshape(x, (-1, *x.shape[2:]))
-        # x = self.Conv(x)
-        x = self.Conv_1(x)
+        x = self.Conv(x)
+        # x = self.Conv_1(x)
         x = nn.Flatten()(x)
         x = torch.reshape(x, (x1, x2, -1))
         x, (h_n, c_n) = self.LSTM(x)
