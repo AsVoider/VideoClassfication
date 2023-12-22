@@ -31,9 +31,7 @@ class ClassificationModel(nn.Module):
         # x: batch, num_frames, features vector
         x = torch.reshape(x, (batch, num_frames, -1))
 
-        # x: Tensor kích thước (batch_size, sequence_length, hidden_size)
-        # h_n: Hidden state cuối cùng của lớp cuối cùng, kích thước (num_layers, batch_size, hidden_size)
-        # c_n: Cell state cuối cùng của lớp cuối cùng, kích thước (num_layers, batch_size, hidden_size)
+        # x: Tensor (batch_size, sequence_length, hidden_size)
         x, (h_n, c_n) = self.lstm(x)
 
         x = h_n[-1, ...]

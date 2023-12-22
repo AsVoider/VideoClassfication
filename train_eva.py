@@ -47,13 +47,11 @@ def evaluate(model, val_data, loss_fn, weights=None, device='cpu', verbose=0):
         for data_batch, label_batch in val_data:
             data_batch, label_batch = data_batch.to(device), label_batch.to(device)
 
-            # tính toán đầu ra cho bộ valid
             output_batch = model(data_batch)
 
             loss = loss_fn(output_batch, label_batch.long())
             running_loss += loss.item()
 
-            # dự đoán đầu ra với softmax
             _, predicted_labels = torch.max(output_batch.data, dim=1)
 
             val_correct += (label_batch == predicted_labels).sum().item()

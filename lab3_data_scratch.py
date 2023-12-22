@@ -76,10 +76,12 @@ class VideoDataset(torch.utils.data.Dataset):
 
 def transform_data(num_class, batch_sz, num_frame, num_workers, data_dir, transform_fun):
     full_dataset = VideoDataset(data_dir=data_dir, num_frames=num_frame, num_classes=num_class, transform=transform_fun)
-    train, test = train_test_split(full_dataset, test_size=0.2, random_state=42)
-    train_loader = dtl(train, batch_size=batch_sz, shuffle=True, num_workers=num_workers)
+    train_val, test = train_test_split(full_dataset, test_size=0.2, random_state=42)
+    train_, val_ = train_test_split(train_val, test_size=0.2, random_state=42)
+    train_loader = dtl(train_, batch_size=batch_sz, shuffle=True, num_workers=num_workers)
+    val_loader = dtl(val_, batch_size=batch_sz, shuffle=True, num_workers=num_workers)
     test_loader = dtl(test, batch_size=batch_sz, shuffle=False, num_workers=num_workers)
-    return train_loader, test_loader
+    return train_loader, val_loader, test_loader
 
 
 def split_dataloader(train_data, validation_split=0.2):
