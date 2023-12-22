@@ -80,7 +80,7 @@ def transform_data(num_class, batch_sz, num_frame, num_workers, data_dir, transf
     train_loader = dtl(train_, batch_size=batch_sz, shuffle=True, num_workers=num_workers)
     val_loader = dtl(val_, batch_size=batch_sz, shuffle=True, num_workers=num_workers)
     test_loader = dtl(test, batch_size=batch_sz, shuffle=False, num_workers=num_workers)
-    return train_loader, val_loader, test_loader, full_dataset
+    return train_loader, val_loader, test_loader
 
 
 def read_radio(data_path, transform, num_frames):

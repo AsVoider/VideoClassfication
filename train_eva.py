@@ -55,7 +55,7 @@ def evaluate(model, val_data, loss_fn, weights=None, device='cpu', verbose=0):
 
 
 def train(model, train_data, loss_fn, optimizer, epochs, weights=None, save_last_weights_path=None,
-          save_best_weights_path=None, freeze=False, steps_per_epoch=None, save_acc_path = None,
+          save_best_weights_path=None, freeze=False, steps_per_epoch=None, save_acc_path=None,
           device='cpu', validation_data=None, validation_split=None, scheduler=None):
     assert not (validation_data is not None and validation_split is not None)
 
