@@ -35,6 +35,6 @@ class MyModel(torch.nn.Module):
         x, (h_n, c_n) = self.LSTM(x)
         x = h_n[-1, ...]
         x = self.FC(x)
-        x = self.SoftMax(x)
+        # x = self.SoftMax(x)
         return x
 
