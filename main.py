@@ -1,13 +1,10 @@
 import torch
-import albumentations as A
-from albumentations.pytorch import ToTensorV2
 import lab3_data_scratch
 import my_model, pretrained_model
 import torch.nn as nn
 import train_eva
 import visual_history
 import argparse
-from torch.utils.data import DataLoader as dtl
 from train_eva import transform
 
 num_classes = 10

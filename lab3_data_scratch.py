@@ -25,6 +25,7 @@ class VideoDataset(torch.utils.data.Dataset):
 
         self.class_dict = {class_label: idx for idx, class_label in enumerate(
             sorted(os.listdir(self.data_dir)))}
+        print(self.class_dict)
 
         for class_label, class_idx in self.class_dict.items():
             class_dir = os.path.join(self.data_dir, class_label)
