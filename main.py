@@ -8,22 +8,22 @@ import train_eva
 import visual_history
 import argparse
 from torch.utils.data import DataLoader as dtl
+from train_eva import transform
 
 num_classes = 10
 batch_size = 4
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 num_frames = 40  # You can adjust this to balance speed and accuracy
-img_size = (128, 128)  # You can adjust this to balance speed and accuracy
 num_workers = 4
 last_weights = 'last_weights.pt'
 best_weights = 'best_weights.pt'
-transform = A.Compose(
-    [
-        A.Resize(height=img_size[0], width=img_size[1]),
-        A.Normalize(),
-        ToTensorV2()
-    ]
-)
+# transform = A.Compose(
+#     [
+#         A.Resize(height=img_size[0], width=img_size[1]),
+#         A.Normalize(),
+#         ToTensorV2()
+#     ]
+# )
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="select model")

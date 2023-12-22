@@ -4,14 +4,8 @@ import lab3_data_scratch
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
-num_classes = 10
-batch_size = 4
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-num_frames = 40  # You can adjust this to balance speed and accuracy
-img_size = (128, 128)  # You can adjust this to balance speed and accuracy
-num_workers = 4
-last_weights = 'last_weights.pt'
-best_weights = 'best_weights.pt'
+img_size = (130, 130)  # You can adjust this to balance speed and accuracy
 transform = A.Compose(
     [
         A.Resize(height=img_size[0], width=img_size[1]),
