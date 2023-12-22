@@ -7,7 +7,7 @@ from albumentations.pytorch import ToTensorV2
 num_classes = 10
 batch_size = 4
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-num_frames = 20  # You can adjust this to balance speed and accuracy
+num_frames = 40  # You can adjust this to balance speed and accuracy
 img_size = (128, 128)  # You can adjust this to balance speed and accuracy
 num_workers = 4
 last_weights = 'last_weights.pt'
@@ -61,7 +61,7 @@ def evaluate(model, val_data, loss_fn, weights=None, device='cpu', verbose=0):
 
 
 def train(model, train_data, loss_fn, optimizer, epochs, weights=None, save_last_weights_path=None,
-          save_best_weights_path=None, freeze=False, steps_per_epoch=None,
+          save_best_weights_path=None, freeze=False, steps_per_epoch=None, save_acc_path = None,
           device='cpu', validation_data=None, validation_split=None, scheduler=None):
     assert not (validation_data is not None and validation_split is not None)
 
@@ -90,6 +90,8 @@ def train(model, train_data, loss_fn, optimizer, epochs, weights=None, save_last
         if val_data is None:
             train_data, val_data = lab3_data_scratch.split_dataloader(train_data, 0.2)
         best_loss, _ = evaluate(model, val_data, device=device, loss_fn=loss_fn)
+    best_train_acc = 0
+    best_val_acc = 0
 
     if steps_per_epoch is None:
         steps_per_epoch = len(train_data)
@@ -161,6 +163,12 @@ def train(model, train_data, loss_fn, optimizer, epochs, weights=None, save_last
                     best_loss = val_loss
                     torch.save(model.state_dict(), save_best_weights_path)
                     print(f'Saved successfully best weights to:', save_best_weights_path)
+            if save_acc_path:
+                if train_accuracy > best_train_acc and val_acc > best_val_acc:
+                    best_train_acc = train_accuracy
+                    best_val_acc = val_acc
+                    torch.save(model.state_dict(), save_acc_path)
+                    print(f'Saved successfully best acc weights to', save_acc_path)
             history['val_loss'].append(float(val_loss))
             history['val_acc'].append(float(val_acc))
         else:

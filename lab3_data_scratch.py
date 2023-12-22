@@ -2,8 +2,7 @@ from sklearn.model_selection import train_test_split
 import os
 import cv2 as cv
 import torch
-from loguru import logger
-from torch.utils.data import DataLoader as dtl
+from torch.utils.data import DataLoader as dtl, random_split as rs
 
 
 class VideoDataset(torch.utils.data.Dataset):
@@ -29,6 +28,8 @@ class VideoDataset(torch.utils.data.Dataset):
 
         for class_label, class_idx in self.class_dict.items():
             class_dir = os.path.join(self.data_dir, class_label)
+            print(class_label)
+            print(f'class idx: {class_idx}')
             for video_filename in sorted(os.listdir(class_dir)):
                 self.video_filename_list.append(
                     os.path.join(class_label, video_filename))
@@ -81,28 +82,51 @@ def transform_data(num_class, batch_sz, num_frame, num_workers, data_dir, transf
     train_loader = dtl(train_, batch_size=batch_sz, shuffle=True, num_workers=num_workers)
     val_loader = dtl(val_, batch_size=batch_sz, shuffle=True, num_workers=num_workers)
     test_loader = dtl(test, batch_size=batch_sz, shuffle=False, num_workers=num_workers)
-    return train_loader, val_loader, test_loader
+    return train_loader, val_loader, test_loader, full_dataset
+
+
+def read_radio(data_path, transform, num_frames):
+    frames = []
+    cap = cv.VideoCapture(data_path)
+    count_frames = 0
+    while True:
+        ret, frame = cap.read()
+        if ret:
+            if transform:
+                transformed = transform(image=frame)
+                frame = transformed['image']
+
+            frames.append(frame)
+            count_frames += 1
+        else:
+            break
+
+    stride = count_frames // num_frames
+    new_frames = []
+    count = 0
+    for i in range(0, count_frames, stride):
+        if count >= num_frames:
+            break
+        new_frames.append(frames[i])
+        count += 1
+
+    cap.release()
+
+    return torch.stack(new_frames, dim=0)
 
 
 def split_dataloader(train_data, validation_split=0.2):
-
     train_ratio = 1 - validation_split
     train_size = int(train_ratio * len(train_data.dataset))
+    val_size = len(train_data.dataset) - train_size
 
-    indices = list(range(len(train_data.dataset)))
-    train_indices = indices[:train_size]
-    val_indices = indices[train_size:]
-
-    dataset = train_data.dataset
+    train_dataset, val_dataset = rs(train_data, [train_size, val_size])
     batch_size = train_data.batch_size
     num_workers = train_data.num_workers
 
-    train_sampler = torch.utils.data.SubsetRandomSampler(train_indices)
-    val_sampler = torch.utils.data.SubsetRandomSampler(val_indices)
-
-    train_data = torch.utils.data.DataLoader(dataset, batch_size=batch_size, sampler=train_sampler,
-                                             num_workers=num_workers, drop_last=True)
-    val_data = torch.utils.data.DataLoader(dataset, batch_size=batch_size, sampler=val_sampler, num_workers=num_workers,
+    train_data = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, num_workers=num_workers,
+                                             drop_last=True)
+    val_data = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers,
                                            drop_last=True)
 
     return train_data, val_data
