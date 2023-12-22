@@ -28,8 +28,6 @@ class VideoDataset(torch.utils.data.Dataset):
 
         for class_label, class_idx in self.class_dict.items():
             class_dir = os.path.join(self.data_dir, class_label)
-            print(class_label)
-            print(f'class idx: {class_idx}')
             for video_filename in sorted(os.listdir(class_dir)):
                 self.video_filename_list.append(
                     os.path.join(class_label, video_filename))
