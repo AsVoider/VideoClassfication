@@ -45,7 +45,7 @@ if __name__ == '__main__':
         opt = torch.optim.Adam(model.parameters(), lr=1e-4)
         scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(opt, factor=0.1, mode='min', patience=3,
                                                                verbose=True) if args.lr_select == 'RE' \
-            else torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(opt, 100, 1, 1e-6)
+            else torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(opt, 100, 1, 1e-6, verbose=True)
         model, his = train_eva.train(model, train_, loss_fn, opt, weights=None, epochs=50, validation_data=val_,
                                      save_best_weights_path=best_weights, save_last_weights_path=last_weights,
                                      device=device, validation_split=None, steps_per_epoch=100, scheduler=scheduler)
