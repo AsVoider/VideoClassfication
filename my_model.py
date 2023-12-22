@@ -9,7 +9,7 @@ class MyModel(torch.nn.Module):
         self.Relu1 = nn.ReLU(inplace=True)
         self.Convadd = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1)
         self.MaxPooling1 = nn.MaxPool2d(kernel_size=2, stride=2)
-        self.Conv2 = nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, padding=1)
+        self.Conv2 = nn.Conv2d(in_channels=32, out_channels=128, kernel_size=3, padding=1)
         self.MaxPooling2 = nn.MaxPool2d(kernel_size=2, stride=2)
         self.Conv3 = nn.Conv2d(in_channels=128, out_channels=512, kernel_size=3, padding=1)
         self.Pooling3 = nn.AdaptiveMaxPool2d((2, 2))
