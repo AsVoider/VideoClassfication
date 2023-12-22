@@ -44,7 +44,7 @@ if __name__ == '__main__':
     # sscheduler1 = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts()
     model, his = train_eva.train(model, train_, loss_fn, opt, weights=None, epochs=50, validation_data=val_,
                                  save_best_weights_path=last_weights, save_last_weights_path=best_weights,
-                                 device=device, validation_split=0.2, steps_per_epoch=100, scheduler=scheduler)
+                                 device=device, validation_split=None, steps_per_epoch=100, scheduler=scheduler)
     visual_history.visualize_history(his)
     test_loss, test_acc = train_eva.evaluate(model, weights=last_weights, val_data=test_, loss_fn=loss_fn,
                                              device='cuda', verbose=1)
