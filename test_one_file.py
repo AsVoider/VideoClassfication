@@ -30,6 +30,6 @@ if __name__ == '__main__':
     output = model(data)
     output = output.reshape(-1)
     _, idx = torch.max(output, dim=0)
-    print(idx.item())
+    print(f'predict class is {idx.item()}')
     print(output)
 
