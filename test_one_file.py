@@ -3,7 +3,8 @@ import argparse
 import torch
 
 import lab3_data_scratch
-from train_eva import transform, num_frames, num_classes
+from train_eva import transform
+from main import num_frames, num_classes
 
 import my_model, pretrained_model
 
