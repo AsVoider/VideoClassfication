@@ -9,7 +9,7 @@ class ClassificationModel(nn.Module):
         self.backbone = timm.create_model(backbone_name, pretrained=True, features_only=True)
         self.adap = nn.AdaptiveAvgPool2d((2, 2))
 
-        self.lstm = nn.LSTM(1024, hidden_size, num_lstm_layers, batch_first=True)
+        self.lstm = nn.LSTM(2048, hidden_size, num_lstm_layers, batch_first=True)
 
         self.fc = nn.Linear(hidden_size, num_classes)
 
