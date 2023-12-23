@@ -5,7 +5,7 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-img_size = (128, 128)  # You can adjust this to balance speed and accuracy
+img_size = (64, 64)  # You can adjust this to balance speed and accuracy
 transform = A.Compose(
     [
         A.Resize(height=img_size[0], width=img_size[1]),
@@ -157,6 +157,7 @@ def train(model, train_data, loss_fn, optimizer, epochs, weights=None, save_last
                     best_loss = val_loss
                     torch.save(model.state_dict(), save_best_weights_path)
                     print(f'Saved successfully best weights to:', save_best_weights_path)
+            print(save_acc_path, )
             if save_acc_path:
                 if train_accuracy > best_train_acc and val_acc > best_val_acc:
                     best_train_acc = train_accuracy
