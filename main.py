@@ -35,9 +35,9 @@ if __name__ == '__main__':
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(opt, factor=0.1, mode='min', patience=3,
                                                            verbose=True) if args.lr_select == 're' \
         else torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(opt, 100, 1, 1e-6, verbose=True)
-    model, his = train_eva.train(model, train_, loss_fn, opt, weights=None, epochs=100, validation_data=val_,
+    model, his = train_eva.train(model, train_, loss_fn, opt, weights=None, epochs=50, validation_data=val_,
                                  save_best_weights_path=best_weights, save_last_weights_path=last_weights,
-                                 device=device, validation_split=None, steps_per_epoch=50, scheduler=scheduler)
+                                 device=device, validation_split=None, steps_per_epoch=100, scheduler=scheduler)
     visual_history.visualize_history(his)
     test_loss, test_acc = train_eva.evaluate(model, weights=last_weights, val_data=test_, loss_fn=loss_fn,
                                              device='cuda', verbose=1)
