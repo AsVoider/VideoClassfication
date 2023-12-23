@@ -22,7 +22,7 @@ if __name__ == '__main__':
     data = lab3_data_scratch.read_radio(args.video_path, transform, num_frames)
     data = data.unsqueeze(0)
     data = data.to('cuda')
-    model = my_model.MyModel(num_classes=num_classes, hidden_size=128, num_lstm=2) if args.model_select == "my_model" \
+    model = my_model.MyModel(num_classes=num_classes, hidden_size=128, num_lstm=3) if args.model_select == "my_model" \
         else pretrained_model.ClassificationModel(num_classes=num_classes, hidden_size=128, num_lstm_layers=2)
     model.to('cuda')
     model.load_state_dict(torch.load('last_weights.pt'))
