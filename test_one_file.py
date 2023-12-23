@@ -23,7 +23,7 @@ if __name__ == '__main__':
     data = data.unsqueeze(0)
     data = data.to('cuda')
     model = my_model.MyModel(num_classes=num_classes, hidden_size=128, num_lstm=2) if args.model_select == "my_model" \
-        else pretrained_model.ClassificationModel(num_classes=num_classes, hidden_size=128, num_lstm_layers=2)
+        else pretrained_model.ClassificationModel(num_classes=num_classes, hidden_size=128, num_lstm_layers=3)
     model.to('cuda')
     model.load_state_dict(torch.load('last_weights.pt'))
     model.eval()

@@ -29,7 +29,7 @@ if __name__ == '__main__':
     train_, val_, test_ = lab3_data_scratch.transform_data(num_classes, batch_size, num_frames, num_workers,
                                                            './data', transform)
     model = my_model.MyModel(num_classes=num_classes, hidden_size=128, num_lstm=2) if args.model_select == "my_model" \
-        else pretrained_model.ClassificationModel(num_classes=num_classes, hidden_size=128, num_lstm_layers=2)
+        else pretrained_model.ClassificationModel(num_classes=num_classes, hidden_size=128, num_lstm_layers=3)
     loss_fn = nn.CrossEntropyLoss()
     opt = torch.optim.Adam(model.parameters(), lr=1e-4)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(opt, factor=0.1, mode='min', patience=3,
