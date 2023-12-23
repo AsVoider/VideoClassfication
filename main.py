@@ -27,7 +27,7 @@ if __name__ == '__main__':
     #                     help="yes or no / train or only test")
     args = parser.parse_args()
     train_, val_, test_ = lab3_data_scratch.transform_data(num_classes, batch_size, num_frames, num_workers,
-                                                                  './data', transform)
+                                                           './data', transform)
     model = my_model.MyModel(num_classes=num_classes, hidden_size=128, num_lstm=3) if args.model_select == "my_model" \
         else pretrained_model.ClassificationModel(num_classes=num_classes, hidden_size=128, num_lstm_layers=2)
     loss_fn = nn.CrossEntropyLoss()
@@ -35,10 +35,10 @@ if __name__ == '__main__':
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(opt, factor=0.1, mode='min', patience=3,
                                                            verbose=True) if args.lr_select == 're' \
         else torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(opt, 100, 1, 1e-6, verbose=True)
-    model, his = train_eva.train(model, train_, loss_fn, opt, weights=None, epochs=50, validation_data=val_,
+    model, his = train_eva.train(model, train_, loss_fn, opt, weights=None, epochs=100, validation_data=val_,
                                  save_best_weights_path=best_weights, save_last_weights_path=last_weights,
                                  device=device, validation_split=None, steps_per_epoch=100, scheduler=scheduler)
     visual_history.visualize_history(his)
     test_loss, test_acc = train_eva.evaluate(model, weights=last_weights, val_data=test_, loss_fn=loss_fn,
-                                         device='cuda', verbose=1)
+                                             device='cuda', verbose=1)
     print(f'Loss: {test_loss : .3f}, Acc: {test_acc: .3f}')
