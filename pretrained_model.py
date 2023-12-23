@@ -9,7 +9,7 @@ class ClassificationModel(nn.Module):
         self.backbone = timm.create_model(backbone_name, pretrained=True, features_only=True)
         self.adap = nn.AdaptiveAvgPool2d((2, 2))
 
-        self.lstm = nn.LSTM(2048, hidden_size, num_lstm_layers, batch_first=True)
+        self.lstm = nn.LSTM(1024, hidden_size, num_lstm_layers, batch_first=True)
 
         self.fc = nn.Linear(hidden_size, num_classes)
 
@@ -21,9 +21,14 @@ class ClassificationModel(nn.Module):
         x = torch.reshape(x, (-1, *x.shape[2:]))
 
         x1, x2, x3, x4, x5 = self.backbone(x)
+        # print(x1.shape)
+        # print(x2.shape)
+        # print(x3.shape)
+        # print(x4.shape)
+        # print(x5.shape)
 
         # x: batch * num_frames, 512, 2, 2
-        x = self.adap(x3)
+        x = self.adap(x2)
 
         # x: batch * num_frames, 2048
         x = nn.Flatten()(x)
