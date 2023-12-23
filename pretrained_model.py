@@ -28,7 +28,7 @@ class ClassificationModel(nn.Module):
         # print(x5.shape)
 
         # x: batch * num_frames, 512, 2, 2
-        x = self.adap(x2)
+        x = self.adap(x3)
 
         # x: batch * num_frames, 2048
         x = nn.Flatten()(x)
