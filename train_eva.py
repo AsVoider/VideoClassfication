@@ -5,7 +5,7 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-img_size = (64, 64)  # You can adjust this to balance speed and accuracy
+img_size = (128, 128)  # You can adjust this to balance speed and accuracy
 transform = A.Compose(
     [
         A.Resize(height=img_size[0], width=img_size[1]),

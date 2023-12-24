@@ -10,7 +10,7 @@ from train_eva import transform
 num_classes = 10
 batch_size = 4
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-num_frames = 30  # You can adjust this to balance speed and accuracy
+num_frames = 40  # You can adjust this to balance speed and accuracy
 num_workers = 4
 last_weights = 'last_weights.pt'
 best_weights = 'best_weights.pt'

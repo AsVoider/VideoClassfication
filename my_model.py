@@ -15,7 +15,6 @@ class MyModel(torch.nn.Module):
         self.Pooling3 = nn.AdaptiveMaxPool2d((2, 2))
         self.LSTM = nn.LSTM(input_size=2048, hidden_size=hidden_size, num_layers=num_lstm, batch_first=True)
         self.FC = nn.Linear(hidden_size, num_classes)
-        # self.SoftMax = nn.Softmax(dim=1)
         self.Conv = nn.Sequential(
             self.Conv1, self.Relu1, self.MaxPooling1, self.Conv2,
             self.Relu1, self.MaxPooling2, self.Conv3, self.Relu1, self.Pooling3
@@ -40,6 +39,5 @@ class MyModel(torch.nn.Module):
         x, (h_n, c_n) = self.LSTM(x)
         x = h_n[-1, ...]
         x = self.FC(x)
-        # x = self.SoftMax(x)
         return x
 
