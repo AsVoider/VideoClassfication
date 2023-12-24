@@ -27,16 +27,12 @@ class ClassificationModel(nn.Module):
         # print(x4.shape)
         # print(x5.shape)
 
-        # x: batch * num_frames, 512, 2, 2
         x = self.adap(x3)
 
-        # x: batch * num_frames, 2048
         x = nn.Flatten()(x)
 
-        # x: batch, num_frames, features vector
         x = torch.reshape(x, (batch, num_frames, -1))
 
-        # x: Tensor (batch_size, sequence_length, hidden_size)
         x, (h_n, c_n) = self.lstm(x)
 
         x = h_n[-1, ...]
