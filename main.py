@@ -14,7 +14,7 @@ num_frames = 40  # You can adjust this to balance speed and accuracy
 num_workers = 4
 last_weights = 'last_weights.pt'
 best_weights = 'best_weights.pt'
-acc_weight = 'acc_weight'
+acc_weight = 'acc_weight.pt'
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="select model")

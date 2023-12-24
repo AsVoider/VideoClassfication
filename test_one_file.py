@@ -4,7 +4,7 @@ import torch
 
 import lab3_data_scratch
 from train_eva import transform
-from main import num_frames, num_classes
+from main import num_frames, num_classes, best_weights, last_weights, acc_weight
 
 import my_model, pretrained_model
 
@@ -25,11 +25,15 @@ if __name__ == '__main__':
     model = my_model.MyModel(num_classes=num_classes, hidden_size=128, num_lstm=2) if args.model_select == "my_model" \
         else pretrained_model.ClassificationModel(num_classes=num_classes, hidden_size=128, num_lstm_layers=2)
     model.to('cuda')
-    model.load_state_dict(torch.load('last_weights.pt'))
+    load_path = last_weights
+    if 'best' == args.pt_select:
+        load_path = best_weights
+    else:
+        load_path = acc_weight
+    model.load_state_dict(torch.load(load_path))
     model.eval()
     output = model(data)
     output = output.reshape(-1)
     _, idx = torch.max(output, dim=0)
     print(f'predict class is {idx.item()}')
     print(output)
-
