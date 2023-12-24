@@ -26,6 +26,8 @@ if __name__ == '__main__':
                         help='pt last ? best ? acc')
     parser.add_argument('--epoch', type=int, default=50,
                          help="type a number")
+    parser.add_argument('--lr', type=float, default=1e-4,
+                        help="type a num")
     args = parser.parse_args()
     train_, val_, test_ = lab3_data_scratch.transform_data(num_classes, batch_size, num_frames, num_workers,
                                                            './data', transform)
